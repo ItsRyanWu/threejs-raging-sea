@@ -1,15 +1,15 @@
 <template>
-  <HelloWorld/>
+  <Sea/>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import HelloWorld from './components/HelloWorld.vue'
+import Sea from './components/Sea.vue'
 
 export default defineComponent({
   name: 'App',
   components: {
-    HelloWorld
+    Sea
   }
 })
 </script>

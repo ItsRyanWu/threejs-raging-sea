@@ -9,13 +9,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import vertexShader from '../shaders/vertex.glsl'
 import fragmentShader from '../shaders/fragment.glsl'
 export default defineComponent({
-  name: 'HelloWorld',
-  props: {
-    msg: {
-      type: String,
-      required: true
-    }
-  },
+  name: 'Sea',
   setup: () => {
 
     const canvasRef = ref(null)
@@ -35,8 +29,12 @@ export default defineComponent({
 
       const waterGeometry = new THREE.PlaneBufferGeometry(2, 2, 128, 128)
       const waterMaterial = new THREE.ShaderMaterial({
+        // side: THREE.DoubleSide,
         vertexShader,
-        fragmentShader
+        fragmentShader,
+        uniforms: {
+          uTime: { value: 0.0 }
+        }
       })
 
       const water = new THREE.Mesh(waterGeometry, waterMaterial)
@@ -47,8 +45,9 @@ export default defineComponent({
       controls.enableDamping = true
 
       const renderer = new THREE.WebGLRenderer({
-          canvas: canvas
+        canvas
       })
+      
       renderer.setSize(sizes.width, sizes.height)
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
@@ -69,6 +68,7 @@ export default defineComponent({
       const clock = new THREE.Clock()
 
       const tick = () => {
+          waterMaterial.uniforms.uTime.value = clock.getElapsedTime()
           controls.update()
           renderer.render(scene, camera)
           window.requestAnimationFrame(tick)
