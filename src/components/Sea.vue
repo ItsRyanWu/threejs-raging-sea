@@ -31,7 +31,7 @@ export default defineComponent({
       camera.position.set(1, 1, 1)
       scene.add(camera)
 
-      const waterGeometry = new THREE.PlaneBufferGeometry(2, 2, 128, 128)
+      const waterGeometry = new THREE.PlaneBufferGeometry(2, 2, 256, 256)
       const waterMaterial = new THREE.ShaderMaterial({
         side: THREE.DoubleSide,
         vertexShader,

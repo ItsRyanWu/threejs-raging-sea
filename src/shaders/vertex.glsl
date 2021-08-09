@@ -3,7 +3,7 @@
 uniform float uTime;
 float PI = 3.14159265359;
 float waveHeight = 0.1;
-float waveFrequency = 3.0;
+float waveFrequency = 4.0;
 float waveSpeed = 1.0;
 
 varying float vElevation;
@@ -16,9 +16,13 @@ void main() {
                      * cos(modelPosition.z * waveFrequency + uTime * waveSpeed)
                      * waveHeight;
 
-  modelPosition.y += elevation;
+  for (float i = 1.0; i <= 5.0; i++) {
+    
+    elevation -= abs((0.06 / i) * cnoise(vec3(modelPosition.xz * 2.0 * i, uTime * 0.1)));
 
-  modelPosition.y += cnoise(modelPosition.xyz) * 0.2;
+  }
+
+  modelPosition.y += elevation;
 
   vElevation = elevation;
 
