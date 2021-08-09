@@ -1,3 +1,5 @@
+#pragma glslify: cnoise = require(./perlin-noise.glsl)
+
 uniform float uTime;
 float PI = 3.14159265359;
 float waveHeight = 0.1;
@@ -15,6 +17,8 @@ void main() {
                      * waveHeight;
 
   modelPosition.y += elevation;
+
+  modelPosition.y += cnoise(modelPosition.xyz) * 0.2;
 
   vElevation = elevation;
 
