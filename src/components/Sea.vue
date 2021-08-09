@@ -21,6 +21,10 @@ export default defineComponent({
         width: window.innerWidth,
         height: window.innerHeight
       }
+      const color = {
+        darkestColor: '#186691',
+        lightestColor: '#9bd8ff'
+      }
 
       const scene = new THREE.Scene()
       const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
@@ -29,11 +33,13 @@ export default defineComponent({
 
       const waterGeometry = new THREE.PlaneBufferGeometry(2, 2, 128, 128)
       const waterMaterial = new THREE.ShaderMaterial({
-        // side: THREE.DoubleSide,
+        side: THREE.DoubleSide,
         vertexShader,
         fragmentShader,
         uniforms: {
-          uTime: { value: 0.0 }
+          uTime: { value: 0.0 },
+          uDarkestColor: { value: new THREE.Color(color.darkestColor) },
+          uLightestColor: { value: new THREE.Color(color.lightestColor) }
         }
       })
 

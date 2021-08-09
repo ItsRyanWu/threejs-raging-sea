@@ -1,9 +1,12 @@
 varying float vElevation;
 
+uniform vec3 uDarkestColor;
+uniform vec3 uLightestColor;
+
 void main() {
 
-  float color = vElevation + 0.2;
+  vec4 color = mix(vec4(uDarkestColor, 1), vec4(uLightestColor, 1), (vElevation + 0.1) * 5.0);
     
-  gl_FragColor = vec4(color, color, color, 1.0);
+  gl_FragColor = color;
 
 }
