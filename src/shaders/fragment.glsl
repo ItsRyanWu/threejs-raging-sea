@@ -5,8 +5,8 @@ uniform vec3 uLightestColor;
 
 void main() {
 
-  vec4 color = mix(vec4(uDarkestColor, 1), vec4(uLightestColor, 1), (vElevation + 0.1) * 5.0);
+  vec3 color = mix(uDarkestColor, uLightestColor, (vElevation + 0.1) * 5.0);
     
-  gl_FragColor = color;
+  gl_FragColor = vec4(color, 1);
 
 }
