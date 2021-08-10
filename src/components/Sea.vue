@@ -5,9 +5,13 @@
 <script lang="ts">
 import { ref, defineComponent, onMounted } from 'vue'
 import * as THREE from 'three'
+import * as dat from 'dat.gui'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import vertexShader from '../shaders/vertex.glsl'
 import fragmentShader from '../shaders/fragment.glsl'
+
+const gui = new dat.GUI({ width: 340 })
+
 export default defineComponent({
   name: 'Sea',
   setup: () => {
@@ -31,7 +35,7 @@ export default defineComponent({
       camera.position.set(1, 1, 1)
       scene.add(camera)
 
-      const waterGeometry = new THREE.PlaneBufferGeometry(2, 2, 256, 256)
+      const waterGeometry = new THREE.PlaneBufferGeometry(2, 2, 128, 128)
       const waterMaterial = new THREE.ShaderMaterial({
         side: THREE.DoubleSide,
         vertexShader,
@@ -42,6 +46,9 @@ export default defineComponent({
           uLightestColor: { value: new THREE.Color(color.lightestColor) }
         }
       })
+
+      gui.addColor(color, 'darkestColor').onChange(() => { waterMaterial.uniforms.uDarkestColor.value.set(color.darkestColor) })
+      gui.addColor(color, 'lightestColor').onChange(() => { waterMaterial.uniforms.uLightestColor.value.set(color.lightestColor) })
 
       const water = new THREE.Mesh(waterGeometry, waterMaterial)
       water.rotation.x = - Math.PI * 0.5
