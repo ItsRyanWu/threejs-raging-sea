@@ -26,8 +26,8 @@ export default defineComponent({
         height: window.innerHeight
       }
       const color = {
-        darkestColor: '#186691',
-        lightestColor: '#9bd8ff'
+        lowestColor: '#186691',
+        highestColor: '#9bd8ff'
       }
 
       const scene = new THREE.Scene()
@@ -42,13 +42,17 @@ export default defineComponent({
         fragmentShader,
         uniforms: {
           uTime: { value: 0.0 },
-          uDarkestColor: { value: new THREE.Color(color.darkestColor) },
-          uLightestColor: { value: new THREE.Color(color.lightestColor) }
+          uColorLowest: { value: new THREE.Color(color.lowestColor) },
+          uColorHighest: { value: new THREE.Color(color.highestColor) },
+          uWaveSpeed: { value: 0.0 },
+          uWaveHeight: { value: 0.0 },
+          uWaveWidth: { value: 0.0 },
+          uSparyMovingSpeed: { value: 0.0 },
+          uSparyChangeSpeed: { value: 0.0 },
+          uSprayHeight: { value: 0.0 },
+          uSprayWidth: { value: 0.0 }
         }
       })
-
-      gui.addColor(color, 'darkestColor').onChange(() => { waterMaterial.uniforms.uDarkestColor.value.set(color.darkestColor) })
-      gui.addColor(color, 'lightestColor').onChange(() => { waterMaterial.uniforms.uLightestColor.value.set(color.lightestColor) })
 
       const water = new THREE.Mesh(waterGeometry, waterMaterial)
       water.rotation.x = - Math.PI * 0.5
@@ -88,6 +92,16 @@ export default defineComponent({
       }
 
       tick()
+
+      gui.addColor(color, 'lowestColor').onChange(() => { waterMaterial.uniforms.uColorLowest.value.set(color.lowestColor) })
+      gui.addColor(color, 'highestColor').onChange(() => { waterMaterial.uniforms.uColorHighest.value.set(color.highestColor) })
+      gui.add(waterMaterial.uniforms.uWaveSpeed, 'value').min(0).max(5).step(0.001).name('waveSpeed')
+      gui.add(waterMaterial.uniforms.uWaveHeight, 'value').min(0).max(5).step(0.001).name('waveHeight')
+      gui.add(waterMaterial.uniforms.uWaveWidth, 'value').min(0).max(5).step(0.001).name('waveWidth')
+      gui.add(waterMaterial.uniforms.uSparyMovingSpeed, 'value').min(0).max(5).step(0.001).name('sparyMovingSpeed')
+      gui.add(waterMaterial.uniforms.uSparyChangeSpeed, 'value').min(0).max(5).step(0.001).name('sparyChangeSpeed')
+      gui.add(waterMaterial.uniforms.uSprayHeight, 'value').min(0).max(5).step(0.001).name('sparyHeight')
+      gui.add(waterMaterial.uniforms.uSprayWidth, 'value').min(0).max(5).step(0.001).name('sparyWidth')
 
     })
     
