@@ -1,24 +1,29 @@
 #pragma glslify: cnoise = require(./perlin-noise.glsl)
 
-uniform float uTime;
 float PI = 3.14159265359;
-float waveHeight = 0.1;
-float waveFrequency = 3.0;
-float waveSpeed = 1.0;
 
+uniform float uTime;
+uniform float uWaveHeight;
+uniform float uWaveWidth;
+uniform float uWaveSpeed;
+uniform float uSparyMovingSpeed;
+uniform float uSparyChangeSpeed;
+uniform float uSprayHeight;
+uniform float uSprayWidth;
+ 
 varying float vElevation;
 
 void main() {
 
   vec4 modelPosition = modelMatrix * vec4(position, 1.0);
 
-  float elevation = sin(modelPosition.x * waveFrequency + uTime * waveSpeed)
-                    * cos(modelPosition.z * waveFrequency * 2.0 + uTime * waveSpeed)
-                    * waveHeight;
+  float elevation = sin(modelPosition.x * uWaveWidth + uTime * uWaveSpeed)
+                    * cos(modelPosition.z * uWaveWidth * 2.0 + uTime * uWaveSpeed)
+                    * uWaveHeight;
 
-  for (float i = 1.0; i <= 5.0; i++) {
+  for (float i = 1.0; i <= 3.0; i++) {
     
-    elevation -= abs((0.06 / i) * cnoise(vec3((modelPosition.xz + vec2(uTime * 0.05)) * 4.0 * i, uTime * 0.1)));
+    elevation -= abs((uSprayHeight / i) * cnoise(vec3((modelPosition.xz + vec2(uTime * uSparyMovingSpeed)) * uSprayWidth * i, uTime * uSparyChangeSpeed)));
 
   }
 
